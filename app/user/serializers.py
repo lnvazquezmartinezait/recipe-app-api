@@ -9,14 +9,14 @@ from django.utils.translation import gettext as _
 
 from rest_framework import serializers
 
+
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for the user Object."""
-
 
     class Meta:
         model = get_user_model()
         fields = ['email', 'password', 'name']
-        extra_kwargs = {'password':{'write_only': True, 'min_length': 5}}
+        extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
 
     def create(self, validate_data):
         """create and return a user with encrypted password."""
@@ -51,8 +51,7 @@ class AuthTokenSerializer(serializers.Serializer):
             password=password,
         )
         if not user:
-            msg  = _('Unable to autheticate with provided credentials.')
+            msg = _('Unable to autheticate with provided credentials.')
             raise serializers.ValidationError(msg, code='authorization')
-
         attrs['user'] = user
         return attrs
